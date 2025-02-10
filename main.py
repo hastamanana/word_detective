@@ -38,7 +38,6 @@ def letter(num: int, el: str) -> bool:
 def main(num, el):
     if not letter(num, el):
         return None
-    print("All GOOD")
     
 if __name__ == '__main__':
     try:
