@@ -1,61 +1,48 @@
-import string
-
-LATIN_GLAS = set('AEIOUY')
-CYRILIC_GLAS = set('АЕЁИОУЫЭЮЯ')
-LATIN_UPPER_LETTERS = set(string.ascii_uppercase)
-CYRILLIC_UPPER_LETTERS = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя'.upper())
+from languages import alphabets, codes, info_messages
 
 
-print('Добро пожаловать в программу "Буква-Детектив!\n')
+def show_game_info() -> None:
+    available_alphabets: tuple[str, ...] = (
+        "Латинский",
+        "Кириллица",
+    )
 
-print('Выберите алфавит:\n')
-print('1. Латинский')
-print('2. Кириллица\n')
-
-def is_correct_alphabet_number(n: int) -> bool:
-    if n not in [1,2]:
-        print("Упс! Выбран неверный режим. Попробуйте ещё раз...")
-        return False
-    return True
-    
-
-def alphabet_n_letter_of_alphabet(num: int, el: str) -> bool:
-    if num == 1:
-        if el not in string.ascii_uppercase:
-            print('Упс! Неизвестная буква. Попробуйте другую!')
-            return False
-        if el in LATIN_GLAS:
-            print(f"{el} - гласная буква!")
-        if el in LATIN_UPPER_LETTERS - (LATIN_UPPER_LETTERS & LATIN_GLAS):
-            print(f"{el} - согласная буква!")
-        return True
-    if num == 2:
-        if el not in CYRILLIC_UPPER_LETTERS:
-            print(f"Упс! Неизвестная буква. Попробуйте другую!")
-            return False
-        if el in CYRILIC_GLAS:
-            print(f"{el} - гласная буква!")
-        if el in CYRILLIC_UPPER_LETTERS - (CYRILLIC_UPPER_LETTERS & CYRILIC_GLAS):
-            print(f"{el} - согласная буква!")
-        return True
+    print('Добро пожаловать в программу "Буква-Детектив!\n')
+    print("Выберите алфавит:\n")
+    for index, name in enumerate(available_alphabets, start=1):
+        print(f"{index}. {name}")
+    print()
 
 
-def main(num, el):
-    if not alphabet_n_letter_of_alphabet(num, el):
-        return None
-    
+def check_letter(char: str, lang: str) -> str:
+    vowels: str = alphabets.get(lang).get("vowels").upper()
+    consonants: str = alphabets.get(lang).get("consonants").upper()
 
-if __name__ == '__main__':
-    
+    if char in vowels:
+        return f"{char} - гласная буква!"
+    elif char in consonants:
+        return f"{char} - согласная буква!"
+
+    return "Упс! Неизвестная буква. Попробуйте другую!"
+
+
+def main() -> str:
+    show_game_info()
+
     try:
-        a = int(input('Введите номер алфавита: '))
-    except ValueError or a not in [1,2]:
-        print("Упс! Выбран неверный режим. Попробуйте ещё раз...")
+        user_choice: int = int(input("Введите номер алфавита: "))
+    except ValueError:
+        pass
     else:
-        if is_correct_alphabet_number(a):
-            if a == 1:
-                main(a, input('Введите букву латинского алфавита: ').upper())
-            if a == 2:
-                main(a, input('Введите букву кириллицы: ').upper())
-    
-    
+        if user_choice not in codes:
+            return "Упс! Выбран неверный режим. Попробуйте ещё раз..."
+
+        lang: str = codes.get(user_choice)
+        hint_msg: str = info_messages.get(lang).get("enter_char")
+        char: str = input(f"{hint_msg}: ")
+
+        return check_letter(char, lang)
+
+
+if __name__ == "__main__":
+    print(main())
