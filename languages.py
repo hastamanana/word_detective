@@ -3,7 +3,7 @@ import string
 alphabets: dict[str, dict[str, str]] = {
     "en": {
         "vowels": "aeiouy",
-        "consonants": string.ascii_lowercase,
+        "consonants": "bcdfghjklmnpqrstvwxz",
     },
     "ru": {
         "vowels": "аеёиоуыэюя",
