@@ -31,8 +31,8 @@ def main() -> str:
 
     try:
         user_choice: int = int(input("Введите номер алфавита: "))
-    except ValueError:
-        pass
+    except ValueError as err:
+        print(f"[ОШИБКА] {err}")
     else:
         if user_choice not in codes:
             return "Упс! Выбран неверный режим. Попробуйте ещё раз..."

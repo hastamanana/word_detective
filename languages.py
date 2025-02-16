@@ -1,5 +1,3 @@
-import string
-
 alphabets: dict[str, dict[str, str]] = {
     "en": {
         "vowels": "aeiouy",
